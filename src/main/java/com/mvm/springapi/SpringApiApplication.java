@@ -45,8 +45,10 @@ public class SpringApiApplication {
     public ResponseEntity<String> update(@PathVariable("id") int id, @RequestBody Student student) {
         Optional<Student> st = db.findById(id);
         if (st.isPresent()) {
-            st.get().clone(student);
-            return ResponseEntity.ok("Updated");
+            Student x = st.get();
+            x.clone(student);
+            db.save(x);
+            return ResponseEntity.ok("Updated v2");
         }else {
             return ResponseEntity.notFound().build();
         }
